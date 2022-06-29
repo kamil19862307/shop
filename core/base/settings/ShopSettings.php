@@ -30,8 +30,18 @@ class ShopSettings
     /*  в свойство нашего класса self::$_instance->baseSettings, сохраним ссылку на объект класса Settings, вызвав у него метод instance() */
     self::$_instance->baseSettings = Settings::instance();
     $baseProperties = self::$_instance->baseSettings->clueProperties(get_class());
+    self::$_instance->setProperty($baseProperties);
 
     return self::$_instance;
+  }
+
+  protected function setProperty($properties)
+  {
+    if ($properties) {
+      foreach ($properties as $name => $property) {
+        $this->$name = $property;
+      }
+    }
   }
 
   public function __construct()

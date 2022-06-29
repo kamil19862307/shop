@@ -25,10 +25,12 @@ class RouteController
 
   private function __construct()
   {
-    $s = Settings::get('routes');
+    $s = Settings::instance();
+    $s1 = shopSettings::instance();
 
     // $s1 = ShopSettings::get('property1');
-    // print_arr($s);
+    print_arr($s);
+    print_arr($s1);
     // echo $s['admin']['name'];
     // echo $this->hair;
     exit();

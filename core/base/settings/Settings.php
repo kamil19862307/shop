@@ -63,10 +63,12 @@ class Settings
       $property = $class::get($name);
       // $baseProperties[$name] = $property;
       if (is_array($property) && is_array($item)) {
-        $baseProperties = [$name] = array_replace_recursive($this->name, $property);
+        $baseProperties = [$name] = $this->arrayMergeRecursive($this->name, $property);
+        continue;
       }
+      if (!$property) $baseProperties[$name] = $this->name;
     }
-    exit();
+    return $baseProperties;
   }
 
   // Объединяем массивы $routes и $tmplateArr 
@@ -78,8 +80,15 @@ class Settings
       foreach ($array as $key => $value) {
         if (is_array($value) && is_array($base[$key])) {
           $base[$key] = $this->arrayMergeRecursive($base[$key], $value);
+        } else {
+          if (is_int($key)) {
+            if (!in_array($value, $base)) array_push($base, $value);
+            continue;
+          }
+          $base[$key] = $value;
         }
       }
     }
+    return $base;
   }
 }
