@@ -1,0 +1,77 @@
+<?php
+
+namespace core\base\settings;
+
+class Settings
+{
+  static private $_instance;
+  private $routes = [
+    'admin' => [
+      'name' => 'admin',
+      'path' => 'core/admin/controller/',
+      'hrUrl' => false
+    ],
+    'settings' => [
+      'path' => 'core/base/settings/'
+    ],
+    'plugins' => [
+      'path' => 'core/plugins/',
+      'hrUrl' => false
+    ],
+    'user' => [
+      'path' => 'core/user/controller/',
+      'hrUrl' => true,
+      'routes' => []
+    ],
+    'default' => [
+      'controller' => 'IndexController',
+      'inputMethod' => 'inputData',
+      'outputMethod' => 'outputData'
+    ]
+  ];
+
+  private $tmplateArr = [
+    'text' => ['name', 'phone', 'adress'],
+    'textarea' => ['content', 'keywords']
+  ];
+
+  public function __construct()
+  {
+  }
+
+  public function __clone()
+  {
+  }
+
+  static public function get($property)
+  {
+    return self::instance()->$property;
+  }
+
+  static public function instance()
+  {
+    if (self::$_instance instanceof self) {
+      return self::$_instance;
+    }
+    return self::$_instance = new self;
+  }
+
+  public function clueProperties($class)
+  {
+    $baseProperties = [];/* массив свойств который будет возращатся */
+    foreach ($this as $name => $item) {
+      $property = $class::get($name);
+      // $baseProperties[$name] = $property;
+      if (is_array($property) && is_array($item)) {
+        $baseProperties = [$name] = array_replace_recursive($this->name, $property);
+      }
+    }
+    exit();
+  }
+
+  public function arrayMergeRecursive()
+  {
+    $arrays = func_get_args();
+    $base = array_shift($arrays);
+  }
+}
