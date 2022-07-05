@@ -9,7 +9,7 @@ require_once 'core/base/settings/internal_settings.php'; //Внутренние 
 require_once 'libraries/functions.php'; //Библиотека внуттрених функций 
 
 use core\base\exceptions\RouteException; //Подключаем пространство имён для исключений
-use core\base\controllers\RouteController; //Контроллер
+use core\base\controller\RouteController; //Контроллер
 
 try {
   /* singleton контроллер */
