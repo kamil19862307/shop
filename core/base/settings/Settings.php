@@ -7,21 +7,29 @@ class Settings
   static private $_instance;
   private $routes = [
     'admin' => [
-      'alias' => 'admin',
+      'alias' => 'admin', //как входить в админ панель
       'path' => 'core/admin/controller/',
-      'hrUrl' => false
+      'hrUrl' => false,
+      'routes' => [
+        // ЧПУ понятные роуты тут будут
+        // 'product' => 'goods' // тут можно поменять путь директории
+
+      ]
     ],
     'settings' => [
       'path' => 'core/base/settings/'
     ],
     'plugins' => [
-      'path' => 'core/plugins/',
-      'hrUrl' => false
+      'path' => 'core/plugins/', // Путь к плагинам
+      'hrUrl' => false,
+      'dir' => false
     ],
     'user' => [
       'path' => 'core/user/controller/',
       'hrUrl' => true,
-      'routes' => []
+      'routes' => [
+        // 'catalog' => 'site/hello/by' // тут можно поменять путь директории
+      ]
     ],
     'default' => [
       'controller' => 'IndexController',

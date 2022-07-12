@@ -8,6 +8,17 @@ class ShopSettings
 {
   static private $_instance;
   private $baseSettings;
+
+  private $routes = [
+    'plugins' => [
+      'dir' => false,
+      'routes' => [
+        // ЧПУ понятные роуты тут будут
+        // 'product' => 'goods' // тут можно поменять путь директории
+      ]
+    ]
+  ];
+
   /* объединяем массив $tmplateArr (в Setting папке) с этим: */
   private $tmplateArr = [
     'text' => ['name', 'phone', 'adress', 'price', 'short'],

@@ -7,10 +7,11 @@ use core\base\settings\Settings;
 use core\base\settings\ShopSettings;
 
 /* ----------- контроллер обработки адресной строки. Формирование маршрутов ------- */
+//Разбирает адрессную строку по параметрам
 
 class RouteController
 {
-  static private $_instance;
+  static private $_instance; // Синглтон
 
   protected $routes;
 
@@ -64,7 +65,14 @@ class RouteController
           if (file_exists($_SERVER['DOCUMENT_ROOT'] . PATH . $pluginSettings . '.php')) {
             /* Переопределяем свойство $this->routes */
             $pluginSettings = str_replace('/', '\\', $pluginSettings);
+            $this->routes = $pluginSettings::get('routes'); //Склеит/объеденит базовые и новые/скорректированные маршруты
           }
+
+          $dir = $this->routes['plugins']['dir'] ? '/' . $this->routes['plugins']['dir'] . '/' : '/';
+          $dir = str_replace('//', '/', $dir);
+          $this->controller = $this->routes['plugins']['path'] . $plugin . $dir;
+          $hrUrl = $this->routes['plugins']['hrUrl'];
+          $route = 'plugins';
         } else {
           $this->controller = $this->routes['admin']['path'];
           $hrUrl = $this->routes['admin']['hrUrl'];
@@ -85,7 +93,27 @@ class RouteController
 
       $this->createRoute($route, $url);
 
-      exit();
+      if ($url[1]) {
+        $count = count($url);
+        $key = ''; //Первая итерация цикла, ключ пуст
+
+        if (!$hrUrl) {
+          $i = 1;
+        } else {
+          $this->parameters['alias'] = $url[1];
+          $i = 2;
+        }
+
+        for (; $i < $count; $i++) {
+          if (!$key) { //Ячейки массива нет. Пример: 'color'
+            $key = $url[$i]; //Ключ попал в этот элемент и остаётся храниться. Пример: 'color'
+            $this->parameters[$key] = ''; //Но при этом, создаю в свойстве parameters ячейку $key 
+          } else {
+            $this->parameters[$key] = $url[$i]; //записываю в свойство parameters, в ячейку $key то, что приходит уже на следующей итерации цикла. Пример: 'color' => 'red'
+            $key = ''; // и обнуляю ключ
+          }
+        }
+      }
     } else {
       try {
         throw new \Exception('Не корректная директория сайта');
@@ -121,6 +149,8 @@ class RouteController
 
     $this->inputMethod = $route[1] ? $route[1] : $this->routes['default']['inputMethod'];
     $this->outputMethod = $route[2] ? $route[2] : $this->routes['default']['outputMethod'];
+    print_arr($this);
+    // echo $this->inputMethod;
     return;
   }
 }
