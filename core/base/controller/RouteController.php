@@ -105,7 +105,7 @@ class RouteController
         }
 
         for (; $i < $count; $i++) {
-          if (!$key) { //Ячейки массива нет. Пример: 'color'
+          if (!$key) { //Ячейки массива нет.
             $key = $url[$i]; //Ключ попал в этот элемент и остаётся храниться. Пример: 'color'
             $this->parameters[$key] = ''; //Но при этом, создаю в свойстве parameters ячейку $key 
           } else {
@@ -114,6 +114,7 @@ class RouteController
           }
         }
       }
+      exit();
     } else {
       try {
         throw new \Exception('Не корректная директория сайта');
@@ -149,7 +150,7 @@ class RouteController
 
     $this->inputMethod = $route[1] ? $route[1] : $this->routes['default']['inputMethod'];
     $this->outputMethod = $route[2] ? $route[2] : $this->routes['default']['outputMethod'];
-    print_arr($this);
+    // print_arr($this);
     // echo $this->inputMethod;
     return;
   }

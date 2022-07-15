@@ -28,6 +28,7 @@ class Settings
       'path' => 'core/user/controller/',
       'hrUrl' => true,
       'routes' => [
+        'catalog' => 'site/hello/by'
         // 'catalog' => 'site/hello/by' // тут можно поменять путь директории
       ]
     ],
